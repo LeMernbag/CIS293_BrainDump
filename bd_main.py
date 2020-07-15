@@ -3,15 +3,15 @@ import tkinter.font as tkFont
 import sys
 
 #filepath variables
-file1 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn1.txt"
-file2 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn2.txt"
-file3 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn3.txt"
-file4 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn4.txt"
-file5 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn5.txt"
-file6 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn6.txt"
-file7 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn7.txt"
-file8 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn8.txt"
-file9 = "/Users/Jon/Desktop/Devs/BrainDump/btn_db/btn9.txt"
+file1 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn1.txt"
+file2 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn2.txt"
+file3 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn3.txt"
+file4 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn4.txt"
+file5 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn5.txt"
+file6 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn6.txt"
+file7 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn7.txt"
+file8 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn8.txt"
+file9 = "/Users/martm/Desktop/CIS293/Project4/CIS293_BrainDump-master/CIS293_BrainDump-master/btn_db/btn9.txt"
 
 #Creates pop-up window for To Do
 class popupWindow(object):
@@ -26,6 +26,12 @@ class popupWindow(object):
         self.e.insert(END, self.readToDo(file))
         self.e.pack()
         self.e.focus()
+
+        # Bind enter key to accept text; same as clicking ok button
+        self.e.bind("<Return>", self.onReturn)
+        # Bind shift+enter for line break
+        self.e.bind("<Shift-Return>", self.onShiftReturn)
+
         self.space=Label(top, text="")
         self.space.pack()
         self.b=Button(top,text='Ok', pady="10", height="1", width="15", command=self.cleanup)
@@ -42,6 +48,17 @@ class popupWindow(object):
         with open(file, "r") as f:
             return (f.read())
 
+    # function when enter is pressed
+    def onReturn(self, arg):
+        self.value=self.e.get("1.0",'end-1c')
+        self.top.destroy()
+        print(self.value)
+
+    # function when shift+enter is pressed
+    def onShiftReturn(self, arg):
+        "\n"
+
+
 # --------------------------------------------------------------------------------
 
 # Creates main window
@@ -49,7 +66,7 @@ class mainWindow(object):
     def __init__(self,master):
         self.master=master
         self.master.title("Brain Dump")
-        
+
         self.button1_text = StringVar()
         self.button1_text.set(self.readFile(file1))
         self.button1=Button(master, width=20, height=10, wraplength=170, textvariable=self.button1_text, command=self.addToDo1)
